@@ -1,38 +1,50 @@
-// src/components/Login.jsx
-import React, { useState } from "react";
-import { TextField, Button, Typography } from "@mui/material";
-import api from "../api.js";
+import React, { useState } from 'react';
+import { Box, Button, TextField, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const Login = ({ setIsAuthenticated }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  const handleLogin = async () => {
-    const data = { email, password };
-    try {
-      const response = await api.login(data);
-      console.log("Login successful:", response.data);
-    } catch (error) {
-      console.error("Login failed:", error);
-    }
+  const handleLogin = (e) => {
+    e.preventDefault();
+    // Add logic to authenticate user here
+    setIsAuthenticated(true);
+    navigate('/chat'); // Redirect to chat after login
   };
 
   return (
-    <div>
-      <Typography variant="h5">Login</Typography>
+    <Box component="form" onSubmit={handleLogin} sx={{ p: 2 }}>
+      <Typography variant="h5" gutterBottom>
+        Login
+      </Typography>
       <TextField
         label="Email"
+        variant="outlined"
+        fullWidth
+        required
+        margin="normal"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
       <TextField
         label="Password"
         type="password"
+        variant="outlined"
+        fullWidth
+        required
+        margin="normal"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <Button onClick={handleLogin}>Login</Button>
-    </div>
+      <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
+        Login
+      </Button>
+      <Button onClick={() => navigate('/signup')} color="secondary" sx={{ mt: 2 }}>
+        Don't have an account? Sign up
+      </Button>
+    </Box>
   );
 };
 

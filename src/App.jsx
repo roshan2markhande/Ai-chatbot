@@ -1,26 +1,24 @@
-// src/App.jsx
-//import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Header from "./components/Header";
-import Login from "./components/Login";
-import Signup from "./components/Signup";
-import ChatHistory from "./components/ChatHistory";
-import ForgotPassword from "./components/ForgotPassword";
-import DraggableChatbot from "./components/DraggableChatbot";
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Draggable from 'react-draggable';
+import ChatbotWindow from './components/ChatbotWindow';
+import './App.css';
 
-const App = () => {
+function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // State for user authentication
+
   return (
     <Router>
-      <Header />
-      <Routes>
-        <Route path="/" element={<DraggableChatbot />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/chat-history" element={<ChatHistory />} />
-      </Routes>
+      <div className="App">
+        {/* Draggable chatbot window */}
+        <Draggable>
+          <div className="chatbot-container">
+            <ChatbotWindow isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />
+          </div>
+        </Draggable>
+      </div>
     </Router>
   );
-};
+}
 
 export default App;

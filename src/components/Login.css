@@ -1,0 +1,24 @@
+/* Login.css, Signup.css */
+
+.auth-form {
+    padding: 20px;
+  }
+  
+  .auth-form h5 {
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .auth-form .MuiTextField-root {
+    margin-bottom: 20px;
+  }
+  
+  .auth-form .MuiButton-root {
+    margin-top: 10px;
+  }
+  
+  .auth-form .MuiButton-colorSecondary {
+    text-transform: none;
+  }
+  

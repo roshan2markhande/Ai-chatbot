@@ -1,29 +1,32 @@
-import React from "react";
-import { Box, Typography, Avatar, Button } from "@mui/material";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
+import { TextField, Container } from '@mui/material';
 
-const Profile = () => {
-  const handleLogout = async () => {
-    // Implement logout functionality (clear session, tokens, etc.)
+const Profile = ({ user }) => {
+  const [profile, setProfile] = useState({});
+
+  useEffect(() => {
+    if (user) {
+      // Fetch user profile from the backend
+      fetchUserProfile();
+    }
+  }, [user]);
+
+  const fetchUserProfile = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/auth/profile/${user.id}`);
+      const data = await response.json();
+      setProfile(data);
+    } catch (error) {
+      console.error('Error fetching profile:', error);
+    }
   };
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Typography variant="h5">Profile</Typography>
-      <Avatar sx={{ width: 100, height: 100, mt: 2 }}>U</Avatar>
-      <Typography variant="h6" sx={{ mt: 2 }}>
-        User Name
-      </Typography>
-      <Typography>Email: user@example.com</Typography>
-      <Button
-        variant="outlined"
-        color="secondary"
-        sx={{ mt: 3 }}
-        onClick={handleLogout}
-      >
-        Logout
-      </Button>
-    </Box>
+    <Container>
+      <h2>Profile</h2>
+      <TextField label="Name" value={profile.name || ''} fullWidth />
+      <TextField label="Email" value={profile.email || ''} fullWidth />
+    </Container>
   );
 };
 

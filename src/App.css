@@ -1,8 +1,49 @@
-/* src/styles.css */
-body {
-  font-family: "Arial", sans-serif;
-}
+/* App.css */
 
 .App {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f2f5;
+  font-family: 'Roboto', sans-serif;
+}
+
+.chatbot-container {
+  width: 400px;
+  height: 600px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  background-color: white;
+  overflow: hidden;
+}
+
+.chatbot-dialog {
+  position: relative;
+  border-radius: 10px;
+}
+
+.MuiTabs-root {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.MuiTab-root {
+  min-width: 50%;
+}
+
+.MuiDialog-paper {
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.chatbot-messages {
+  padding: 10px;
+  background-color: #f7f7f7;
+  border-radius: 10px;
+}
+
+.chatbot-input {
+  padding: 10px;
+  background-color: #fff;
+  border-top: 1px solid #e0e0e0;
 }

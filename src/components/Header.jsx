@@ -1,18 +1,28 @@
-// src/components/Header.jsx
-import React from "react";
-import { AppBar, Toolbar, Typography } from "@mui/material";
-import UserIcon from "./UserIcon";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import Avatar from '@mui/material/Avatar';
+import { deepOrange } from '@mui/material/colors';
 
-const Header = () => {
+const Header = ({ user }) => {
   return (
-    <AppBar position="static">
-      <Toolbar>
-        <Typography variant="h6" style={{ flexGrow: 1 }}>
-          AI Chatbot
-        </Typography>
-        <UserIcon />
-      </Toolbar>
-    </AppBar>
+    <header className="header">
+      <h1>AI Chatbot</h1>
+      {user ? (
+        <div className="header-profile">
+          <Avatar sx={{ bgcolor: deepOrange[500] }}>
+            {user.name.charAt(0).toUpperCase()}
+          </Avatar>
+          <span>{user.name}</span>
+          <Link to="/profile">Profile</Link>
+          <Link to="/logout">Logout</Link>
+        </div>
+      ) : (
+        <div>
+          <Link to="/login">Login</Link>
+          <Link to="/signup">Signup</Link>
+        </div>
+      )}
+    </header>
   );
 };
 

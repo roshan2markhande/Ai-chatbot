@@ -1,26 +1,41 @@
-// src/components/ForgotPassword.jsx
-import React, { useState } from "react";
-import { TextField, Button, Typography } from "@mui/material";
+import React, { useState } from 'react';
+import { TextField, Button, Container } from '@mui/material';
+//import './ForgetPassword.css';
 
-const ForgotPassword = () => {
-  const [email, setEmail] = useState("");
+const ForgetPassword = () => {
+  const [email, setEmail] = useState('');
 
-  const handleForgotPassword = () => {
-    console.log("Forgot password for:", email);
-    // Implement your forgot password logic here
+  const handleResetPassword = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/forget-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const data = await response.json();
+      if (data.success) {
+        alert('Password reset link sent to your email');
+      }
+    } catch (error) {
+      console.error('Error resetting password:', error);
+    }
   };
 
   return (
-    <div>
-      <Typography variant="h5">Forgot Password</Typography>
+    <Container>
+      <h2>Reset Your Password</h2>
       <TextField
         label="Email"
+        variant="outlined"
+        fullWidth
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-      <Button onClick={handleForgotPassword}>Submit</Button>
-    </div>
+      <Button onClick={handleResetPassword} variant="contained" color="primary">
+        Reset Password
+      </Button>
+    </Container>
   );
 };
 
-export default ForgotPassword;
+export default ForgetPassword;

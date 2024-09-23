@@ -1,65 +1,57 @@
-// src/components/Chatbot.jsx
-import React, { useState } from "react";
-import { TextField, Button, Typography } from "@mui/material";
-import api from "../api.js";
+import React, { useState } from 'react';
+import { Box, TextField, Button, Typography, IconButton } from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
+import MicIcon from '@mui/icons-material/Mic';
+import './Chatbot.css';
 
 const Chatbot = () => {
-  const [input, setInput] = useState("");
+  const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
 
-  const handleSendMessage = async () => {
-    if (input.trim()) {
-      const newMessage = { text: input, sender: "User" };
-      setMessages((prev) => [...prev, newMessage]);
+  const handleSendMessage = () => {
+    if (message.trim()) {
+      setMessages([...messages, { text: message, sender: 'user' }]);
+      setMessage('');
 
-      try {
-        const response = await api.saveChat({ message: input });
-        const botMessage = { text: response.data.reply, sender: "Bot" };
-        setMessages((prev) => [...prev, botMessage]);
-      } catch (error) {
-        console.error("Error communicating with backend:", error);
-      }
-
-      setInput("");
+      // Simulate AI response after 1 second
+      setTimeout(() => {
+        setMessages([...messages, { text: message, sender: 'user' }, { text: 'AI response here...', sender: 'ai' }]);
+      }, 1000);
     }
   };
 
   return (
-    <div style={{ padding: "10px" }}>
-      <Typography variant="h5">Chatbot</Typography>
-      <div
-        style={{
-          height: "300px",
-          overflowY: "auto",
-          border: "1px solid #ccc",
-          marginBottom: "10px",
-        }}
-      >
-        {messages.map((msg, index) => (
+    <Box className="chatbot">
+      <Box className="chatbot-messages" sx={{ height: '400px', overflowY: 'auto' }}>
+        {messages.map((msg, idx) => (
           <Typography
-            key={index}
-            style={{ textAlign: msg.sender === "User" ? "right" : "left" }}
+            key={idx}
+            sx={{
+              textAlign: msg.sender === 'user' ? 'right' : 'left',
+              color: msg.sender === 'user' ? 'black' : 'gray',
+              marginBottom: 1,
+            }}
           >
             {msg.text}
           </Typography>
         ))}
-      </div>
-      <TextField
-        label="Type a message"
-        variant="outlined"
-        fullWidth
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-      />
-      <Button
-        onClick={handleSendMessage}
-        variant="contained"
-        color="primary"
-        style={{ marginTop: "10px" }}
-      >
-        Send
-      </Button>
-    </div>
+      </Box>
+      <Box className="chatbot-input" display="flex" alignItems="center" mt={2}>
+        <TextField
+          label="Type a message"
+          variant="outlined"
+          fullWidth
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+        />
+        <IconButton color="primary" onClick={handleSendMessage}>
+          <SendIcon />
+        </IconButton>
+        <IconButton color="primary">
+          <MicIcon />
+        </IconButton>
+      </Box>
+    </Box>
   );
 };
 
