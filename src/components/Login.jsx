@@ -1,51 +1,25 @@
+// frontend/src/components/Login.jsx
 import React, { useState } from 'react';
-import { Box, Button, TextField, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { TextField, Button } from '@mui/material';
+import { loginUser } from '../api';
 
-const Login = ({ setIsAuthenticated }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const navigate = useNavigate();
+const Login = ({ setUser }) => {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    // Add logic to authenticate user here
-    setIsAuthenticated(true);
-    navigate('/chat'); // Redirect to chat after login
-  };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const response = await loginUser({ username, password });
+        setUser(response.data.token);
+    };
 
-  return (
-    <Box component="form" onSubmit={handleLogin} sx={{ p: 2 }}>
-      <Typography variant="h5" gutterBottom>
-        Login
-      </Typography>
-      <TextField
-        label="Email"
-        variant="outlined"
-        fullWidth
-        required
-        margin="normal"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <TextField
-        label="Password"
-        type="password"
-        variant="outlined"
-        fullWidth
-        required
-        margin="normal"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-        Login
-      </Button>
-      <Button onClick={() => navigate('/signup')} color="secondary" sx={{ mt: 2 }}>
-        Don't have an account? Sign up
-      </Button>
-    </Box>
-  );
+    return (
+        <form onSubmit={handleSubmit}>
+            <TextField label="Username" onChange={(e) => setUsername(e.target.value)} fullWidth />
+            <TextField label="Password" type="password" onChange={(e) => setPassword(e.target.value)} fullWidth />
+            <Button type="submit">Login</Button>
+        </form>
+    );
 };
 
 export default Login;
